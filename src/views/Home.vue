@@ -2,7 +2,6 @@
 import { ref, computed, onMounted } from 'vue'
 import emailjs from 'emailjs-com'
 
-// Swiper (resto del tuo codice invariato)
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import 'swiper/css'
 import 'swiper/css/free-mode'
@@ -13,72 +12,41 @@ import { FreeMode, Navigation, Thumbs } from 'swiper/modules'
 import { inject } from 'vue'
 const globalData = inject('globalData')
 
+const videos = ref([])
+
+async function loadVideos() {
+  const response = await fetch(
+    "https://vimeo.com/api/v2/user208734932/videos.json"
+  )
+
+  const data = await response.json()
+
+  videos.value = data.map((video, index) => ({
+    id: index,
+    title: video.title,
+    thumbnail: video.thumbnail_large,
+    url: `https://player.vimeo.com/video/${video.id}`
+  }))
+}
+
 const thumbsSwiper = ref(null)
 const mainSwiper = ref(null)
 const currentIndex = ref(0)
+
 const thumbs = computed(() => ({ swiper: thumbsSwiper.value }))
+
 const setThumbsSwiper = (swiper) => (thumbsSwiper.value = swiper)
+
 const setMainSwiper = (swiper) => {
   mainSwiper.value = swiper
   currentIndex.value = swiper?.activeIndex ?? 0
 }
+
 const onSlideChange = (swiper) => (currentIndex.value = swiper.activeIndex)
 
-
-const form = ref(null)
-const sending = ref(false)
-const sent = ref(false)
-
-const email = ref('')
-const title = ref('')
-const name = ref('')
-const time = ref('')
-const message = ref('')
-
-// ora corrente
-const setCurrentTime = () => {
-  const now = new Date();
-  time.value = now.toLocaleTimeString('it-IT');
-}
-
 onMounted(() => {
-  setCurrentTime();
+  loadVideos()
 })
-
-const sendEmail = async () => {
-  setCurrentTime();
-  sending.value = true
-  sent.value = false
-
-  try {
-    await emailjs.sendForm(
-      'default_service',
-      'template_n9vchzu',
-      form.value,
-      'RgtMFRhqJcSLACn-u'
-    )
-    sent.value = true
-    // resetta i campi dopo invio
-    email.value = title.value = name.value = time.value = message.value = ''
-  } catch (error) {
-    console.error('FAILED...', error)
-    alert('Errore durante l’invio ❌')
-  } finally {
-    sending.value = false
-  }
-}
-
-
-// Funzione per scroll smooth
-const scrollToSection = (sectionId) => {
-  const element = document.getElementById(sectionId);
-  if (element) {
-    element.scrollIntoView({ 
-      behavior: 'smooth',
-      block: 'start'
-    });
-  }
-}
 </script>
 
 <template>
@@ -131,57 +99,41 @@ const scrollToSection = (sectionId) => {
             PREVIOUS PRODUCTIONS:
           </h1>
           <!-- MAIN SWIPER -->
-          <Swiper :modules="[FreeMode, Navigation, Thumbs]" :spaceBetween="5" :navigation="true" :thumbs="thumbs"
-            class="mySwiper2" @swiper="setMainSwiper" @slideChange="onSlideChange">
-            <SwiperSlide><iframe title="vimeo-player" src="https://player.vimeo.com/video/1092841778?h=9c116489cb"
-                width="650" height="545" class="iframe-sw" frameborder="0"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-                allowfullscreen alt="1"></iframe></SwiperSlide>
-            <SwiperSlide><iframe title="vimeo-player" src="https://player.vimeo.com/video/1099415862?h=a96f8bcc38"
-                width="650" height="545" class="iframe-sw" frameborder="0"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-                allowfullscreen alt="2"></iframe></SwiperSlide>
-            <SwiperSlide><iframe title="vimeo-player" src="https://player.vimeo.com/video/1068568004?h=497c4dbaa1"
-                width="650" height="545" class="iframe-sw" frameborder="0"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-                allowfullscreen alt="3"></iframe></SwiperSlide>
-            <SwiperSlide><iframe title="vimeo-player" src="https://player.vimeo.com/video/1084361085?h=7f247a0b7e"
-                width="650" height="545" class="iframe-sw" frameborder="0"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-                allowfullscreen alt="4"></iframe></SwiperSlide>
-            <SwiperSlide><iframe title="vimeo-player" src="https://player.vimeo.com/video/1075833312?h=4332fba3ee"
-                width="650" height="550" class="iframe-sw" frameborder="0"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-                allowfullscreen alt="5"></iframe></SwiperSlide>
-            <SwiperSlide><iframe title="vimeo-player" src="https://player.vimeo.com/video/1130581740?h=6117c62f30"
-                width="650" height="545" class="iframe-sw" frameborder="0"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-                allowfullscreen alt="6"></iframe></SwiperSlide>
-            <SwiperSlide><iframe title="vimeo-player" src="https://player.vimeo.com/video/1130582373?h=f2cbf7688e"
-                width="650" height="545" class="iframe-sw" frameborder="0"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-                allowfullscreen alt="7"></iframe></SwiperSlide>
-            <!-- altre slide... -->
+          <Swiper
+            :modules="[FreeMode, Navigation, Thumbs]"
+            :spaceBetween="5"
+            :navigation="true"
+            :thumbs="thumbs"
+            class="mySwiper2"
+            @swiper="setMainSwiper"
+            @slideChange="onSlideChange"
+          >
+            <SwiperSlide v-for="video in videos" :key="video.id">
+              <iframe
+                class="iframe-sw"
+                :src="video.url"
+                width="650"
+                height="545"
+                frameborder="0"
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </SwiperSlide>
           </Swiper>
 
           <!-- THUMBNAILS SWIPER -->
-          <Swiper :modules="[FreeMode, Navigation, Thumbs]" :spaceBetween="5" :slidesPerView="4" :freeMode="true"
-            :watchSlidesProgress="true" class="mySwiper" @swiper="setThumbsSwiper">
-            <SwiperSlide><img src="/video/copertine_projects/1.jpeg" alt="t1" /></SwiperSlide>
-            <SwiperSlide><img src="/video/copertine_projects/2.jpeg" alt="t2" /></SwiperSlide>
-            <SwiperSlide><img src="/video/copertine_projects/3.jpeg" alt="t3" /></SwiperSlide>
-            <SwiperSlide><img src="/video/copertine_projects/4.jpeg" alt="t4" /></SwiperSlide>
-            <SwiperSlide><img src="/video/copertine_projects/5.jpeg" alt="t5" /></SwiperSlide>
-            <SwiperSlide><img src="/video/copertine_projects/6.jpeg" alt="t6" /></SwiperSlide>
-            <SwiperSlide><img src="/video/copertine_projects/7.jpeg" alt="t7" /></SwiperSlide>
-            <!-- altre miniatures... -->
+          <Swiper
+            :modules="[FreeMode, Navigation, Thumbs]"
+            :spaceBetween="5"
+            :slidesPerView="4"
+            :freeMode="true"
+            :watchSlidesProgress="true"
+            class="mySwiper"
+            @swiper="setThumbsSwiper"
+          >
+            <SwiperSlide v-for="video in videos" :key="'thumb-'+video.id">
+              <img :src="video.thumbnail" :alt="video.title" />
+            </SwiperSlide>
           </Swiper>
         </div>
 

@@ -1,48 +1,24 @@
 <script setup>
-const videos = [
-  {
-    id: 1,
-    title: "Video 1",
-    thumbnail: "/video/copertine_projects/1.jpeg",
-    url: "https://player.vimeo.com/video/1092841778?h=9c116489cb"
-  },
-  {
-    id: 2,
-    title: "Video 2",
-    thumbnail: "/video/copertine_projects/2.jpeg",
-    url: "https://player.vimeo.com/video/1099415862?h=a96f8bcc38"
-  },
-  {
-    id: 3,
-    title: "Video 3",
-    thumbnail: "/video/copertine_projects/3.jpeg",
-    url: "https://player.vimeo.com/video/1068568004?h=497c4dbaa1"
-  },
-  {
-    id: 4,
-    title: "Video 4",
-    thumbnail: "/video/copertine_projects/4.jpeg",
-    url: "https://player.vimeo.com/video/1084361085?h=7f247a0b7e"
-  },
-  {
-    id: 5,
-    title: "Video 5",
-    thumbnail: "/video/copertine_projects/5.jpeg",
-    url: "https://player.vimeo.com/video/1075833312?h=4332fba3ee"
-  },
-  {
-    id: 6,
-    title: "Video 6",
-    thumbnail: "/video/copertine_projects/6.jpeg",
-    url: "https://player.vimeo.com/video/1130581740?h=6117c62f30"
-  },
-  {
-    id: 7,
-    title: "Video 7",
-    thumbnail: "/video/copertine_projects/7.jpeg",
-    url: "https://player.vimeo.com/video/1130582373?h=f2cbf7688e"
-  }
-]
+import { ref, onMounted } from 'vue'
+
+const videos = ref([])
+
+async function loadVideos() {
+  const response = await fetch(
+    "https://vimeo.com/api/v2/user208734932/videos.json"
+  )
+
+  const data = await response.json()
+
+  videos.value = data.map((video, index) => ({
+    id: index + 1,
+    title: video.title,
+    thumbnail: video.thumbnail_large,
+    url: `https://player.vimeo.com/video/${video.id}`
+  }))
+}
+
+onMounted(loadVideos)
 
 function scrollToVideo(id) {
   const element = document.getElementById(`video-${id}`)
@@ -76,7 +52,9 @@ function scrollToVideo(id) {
     </div>
 
     <!-- Sezione video -->
-    <div class="mt-10 space-y-10">
+    <hr class="mt-16 border-2" />
+
+    <div class="mt-32 space-y-10">
       <div
         v-for="video in videos"
         :key="'video-' + video.id"
