@@ -405,6 +405,11 @@
     text-rendering: auto;
   }
 
+  /* TESTIMONIALS HOME PAGE */
+  .tst .swiper-button-next,
+  .tst .swiper-button-prev {
+    margin: 0 -0.8rem !important;
+  }
   /* Reset allineamenti verticali */
   img,
   svg,

@@ -12,6 +12,7 @@ import { FreeMode, Navigation, Thumbs } from 'swiper/modules'
 import { inject } from 'vue'
 const globalData = inject('globalData')
 
+/* ---------------- VIDEO ---------------- */
 const videos = ref([])
 
 async function loadVideos() {
@@ -29,6 +30,62 @@ async function loadVideos() {
   }))
 }
 
+/* ---------------- RECENSIONI ---------------- */
+const recensioni = ref([
+  {
+    id: 1,
+    nome: "Marco Rossi",
+    voto: 5,
+    testo: "Servizio impeccabile, super consigliato!"
+  },
+  {
+    id: 2,
+    nome: "Laura Bianchi",
+    voto: 4,
+    testo: "Ottima esperienza, personale molto disponibile."
+  },
+  {
+    id: 3,
+    nome: "Giulio Verdi",
+    voto: 5,
+    testo: "Qualità davvero alta, tornerò sicuramente."
+  },
+  {
+    id: 4,
+    nome: "Giulia Gatto",
+    voto: 4,
+    testo: "Video eccelsi proprio come li volevo."
+  },
+  {
+    id: 5,
+    nome: "Massimiliano Neri",
+    voto: 4,
+    testo: "Consiglio!!"
+  },
+  {
+    id: 6,
+    nome: "Mario R.",
+    voto: 5,
+    testo: "Ogni video è un'opera d'arte"
+  },
+  {
+    id: 7,
+    nome: "Matteo M.",
+    voto: 4,
+    testo: "Qualità top, bei montaggi."
+  }
+])
+
+// filtro (facoltativo)
+const filtroVoto = ref('')
+
+// recensioni filtrate
+const recensioniFiltrate = computed(() => {
+  if (!filtroVoto.value) return recensioni.value
+  return recensioni.value.filter(r => r.voto == filtroVoto.value)
+})
+
+/* ---------------- SWIPER ---------------- */
 const thumbsSwiper = ref(null)
 const mainSwiper = ref(null)
 const currentIndex = ref(0)
@@ -44,9 +101,19 @@ const setMainSwiper = (swiper) => {
 
 const onSlideChange = (swiper) => (currentIndex.value = swiper.activeIndex)
 
+/* ---------------- INIT ---------------- */
 onMounted(() => {
   loadVideos()
+  // loadRecensioni()
 })
+
+/*
+// ex API recensioni
+async function loadRecensioni() {
+  const res = await fetch('/api/recensioni')
+  recensioni.value = await res.json()
+}
+*/
 </script>
 
 <template>
@@ -192,9 +259,35 @@ onMounted(() => {
           </div>
         </div>
 
-        <div class="relative min-h-screen w-full flex items-center justify-center flex-col">
+        <div class="relative min-h-screen w-full flex items-start justify-center flex-col">
+          <!-- TESTIMONIALS -->
+          <div class="container mx-auto max-w-[717px] left-0 md:mb-8 relative tst">
+            <h1 class=" text-2xl sm:text-3xl xl:text-4xl font-black mt-32 mb-8 w-fit">TESTIMONIALS</h1>
+            <Swiper
+              :modules="[Navigation]"
+              :slides-per-view="3"
+              :space-between="20"
+              navigation
+              :breakpoints="{
+                0: { slidesPerView: 1 },
+                640: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 }
+              }"
+            >
+              <SwiperSlide v-for="recensione in recensioni" :key="recensione.id">
+                <div class="review p-4 border rounded-lg text-center">
+                  <p class="font-bold">{{ recensione.nome }}</p>
+                  <div>
+                    <span v-for="n in recensione.voto" :key="n">⭐</span>
+                  </div>
+                  <p class="max-w-[150px] mx-auto">{{ recensione.testo }}</p>
+                </div>
+              </SwiperSlide>
+            </Swiper>
+          </div>
+
           <!-- CONTACT -->
-          <div class="container mx-auto max-w-[500px] mt-2 md:mb-6">
+          <div class="container mx-auto max-w-[717px] mt-2 md:mb-6">
             <h1 class=" text-2xl sm:text-3xl xl:text-4xl font-black mt-12 mb-8 w-fit">GET IN TOUCH!</h1>
             <div
               class="flex justify-between items-center gap-2 flex-wrap sm:flex-nowrap mt-8 w-fit max-w-[400px] mb-16">
@@ -223,9 +316,10 @@ onMounted(() => {
               </a>
             </div>
           </div>
+          
           <!-- SOCIALS -->
           <!-- PREVIEW SOCIALS (EX. INSTAGRAM PROFILE) -->
-          <div class="container mx-auto max-w-[500px] mt-2 md:mb-24">
+          <div class="container mx-auto max-w-[717px] mt-2 md:mb-24">
             <!-- socials -->
             <h1 class=" text-2xl sm:text-3xl xl:text-4xl font-black mt-16 pt-4 mb-8">Socials: </h1>
             <div class="social-wrap flex gap-6 text-sm mt-2">

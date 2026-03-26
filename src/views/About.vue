@@ -14,7 +14,7 @@
           Versace Francesco
         </h4>
         <p class="text-base text-slate-600 mt-4 font-medium">
-          Born in 2004, I am a boy from Monfalcone (GO) who has always liked recording and editing videos, a passion that has today become a solid reality; in fact, since 2025 I have opened my own company with VAT number, taking on increasingly important tasks with increasingly famous people.
+          Born in 2004, I am a boy from Monfalcone (GO) who has always liked recording and editing videos, a passion that has today become a solid reality; in fact, since 2025 I have opened my own company with IVA number, taking on increasingly important tasks with increasingly famous people.
         </p>
         <p class="text-base text-slate-900 mt-4 font-light font-impact">
           <i>"To make a video well, you not only need experience and knowledge, but also a lot of inspiration and creativity"</i>
