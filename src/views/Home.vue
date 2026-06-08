@@ -262,7 +262,11 @@ async function loadRecensioni() {
         <div class="relative min-h-screen w-full flex items-start justify-center flex-col">
           <!-- TESTIMONIALS -->
 
-          
+          <!-- TrustBox widget - Review Collector -->
+          <div class="trustpilot-widget mx-auto mt-28 mb-12" data-locale="it-IT" data-template-id="56278e9abfbbba0bdcd568bc" data-businessunit-id="6a268d98d088a85967cd1c64" data-style-height="75px" data-style-width="100%" data-token="06cfedf1-57d6-4598-84e6-3ee1b1024bd6">
+            <a href="https://it.trustpilot.com/review/xjxvisuals.com" target="_blank" rel="noopener">Trustpilot</a>
+          </div>
+          <!-- End TrustBox widget -->
 
           <!-- <div class="container mx-auto max-w-[717px] left-0 md:mb-8 relative tst">
             <h1 class=" text-2xl sm:text-3xl xl:text-4xl font-black mt-32 mb-8 w-fit">TESTIMONIALS</h1>
