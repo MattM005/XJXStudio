@@ -261,7 +261,10 @@ async function loadRecensioni() {
 
         <div class="relative min-h-screen w-full flex items-start justify-center flex-col">
           <!-- TESTIMONIALS -->
-          <div class="container mx-auto max-w-[717px] left-0 md:mb-8 relative tst">
+
+          
+
+          <!-- <div class="container mx-auto max-w-[717px] left-0 md:mb-8 relative tst">
             <h1 class=" text-2xl sm:text-3xl xl:text-4xl font-black mt-32 mb-8 w-fit">TESTIMONIALS</h1>
             <Swiper
               :modules="[Navigation]"
@@ -284,7 +287,7 @@ async function loadRecensioni() {
                 </div>
               </SwiperSlide>
             </Swiper>
-          </div>
+          </div> -->
 
           <!-- CONTACT -->
           <div class="container mx-auto max-w-[717px] mt-2 md:mb-6">
