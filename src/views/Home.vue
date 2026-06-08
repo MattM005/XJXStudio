@@ -160,7 +160,7 @@ async function loadRecensioni() {
       <!-- content of all the home -->
       <div
         class="container min-h-full sticky w-full max-w-4xl px-4 md:mt-24 mx-auto flex flex-col justify-center items-center">
-        <div class="relative min-h-screen w-full" id="down"> <!--scroll down THERE-->
+        <div class="relative min-h-[65vh] w-full" id="down"> <!--scroll down THERE-->
           <!-- LITTLE PREVIEW OF WORKS -->
           <h1 class="text-2xl sm:text-3xl lg:text-4xl text-center font-black">
             PREVIOUS PRODUCTIONS:
@@ -204,7 +204,7 @@ async function loadRecensioni() {
           </Swiper>
         </div>
 
-        <div class="relative min-h-screen w-full flex items-center justify-center">
+        <div class="relative min-h-[65vh] w-full flex items-center justify-center">
           <!-- SERVICES -->
           <div class="container mx-auto mt-44 mb-3">
             <h1 class="text-2xl sm:text-4xl md:text-5xl font-black w-fit mx-auto mb-12">
@@ -259,7 +259,7 @@ async function loadRecensioni() {
           </div>
         </div>
 
-        <div class="relative min-h-screen w-full flex items-start justify-center flex-col">
+        <div class="relative min-h-[65vh] w-full flex items-start justify-center flex-col">
           <!-- TESTIMONIALS -->
 
           <!-- TrustBox widget - Review Collector -->
